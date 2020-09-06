@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import signInBgImg from '../../assets/signin-background.png';
+import signInBgImg from '../../assets/signup-background.png';
 
 export const Container = styled.div`
   height: 100vh;
@@ -17,7 +17,7 @@ export const Content = styled.div`
   max-width: 700px;
 
   form {
-    margin: 80px 0;
+    margin: 20px 0;
     width: 340px;
     text-align: center;
 
@@ -38,7 +38,7 @@ export const Content = styled.div`
   }
 
   > a {
-    color: #ff9000;
+    color: #f4ede8;
     display: block;
     text-decoration: none;
     transition: background-color 0.2s;
@@ -51,7 +51,7 @@ export const Content = styled.div`
     }
 
     svg {
-      margin-right: 16px;
+      margin-right: 10px;
     }
   }
 `;
