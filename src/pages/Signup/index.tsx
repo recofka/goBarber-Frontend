@@ -4,6 +4,7 @@ import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
+import { useToast } from '../../hooks/toast';
 import logoImg from '../../assets/logo.svg';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -12,29 +13,39 @@ import getValidationErrors from '../../utils/getValidationErrors';
 import { Container, Content, Background, AnimationContainer } from './styles';
 
 const Signup: React.FC = () => {
+  const { addToast } = useToast();
   const formRef = useRef<FormHandles>(null);
 
-  const handleSubmit = useCallback(async (data: object) => {
-    try {
-      formRef.current?.setErrors({});
+  const handleSubmit = useCallback(
+    async (data: object) => {
+      try {
+        formRef.current?.setErrors({});
 
-      const schema = Yup.object().shape({
-        name: Yup.string().required('Name is required'),
-        email: Yup.string()
-          .required('E-mail is required')
-          .email('Inform a valid e-mail address'),
-        password: Yup.string().min(6, 'Password is required'),
-      });
+        const schema = Yup.object().shape({
+          name: Yup.string().required('Name is required'),
+          email: Yup.string()
+            .required('E-mail is required')
+            .email('Inform a valid e-mail address'),
+          password: Yup.string().min(6, 'Password is required'),
+        });
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-    } catch (err) {
-      const errors = getValidationErrors(err);
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+      } catch (err) {
+        const errors = getValidationErrors(err);
 
-      formRef.current?.setErrors(errors);
-    }
-  }, []);
+        formRef.current?.setErrors(errors);
+
+        addToast({
+          type: 'error',
+          title: 'Error creating user',
+          description: 'an error has occurred during user creation',
+        });
+      }
+    },
+    [addToast],
+  );
 
   return (
     <Container>
